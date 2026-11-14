@@ -16,6 +16,7 @@ function SignUp() {
   const { signup } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const redirectParam = searchParams.get('redirect');
 
   const handleEmailBlur = () => {
     if (email.trim()) {
@@ -97,7 +98,7 @@ function SignUp() {
           <p>Get started with synthetic data generation</p>
         </div>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit} noValidate>
           {error && <div className="auth-error">{error}</div>}
 
           <div className="auth-field">
@@ -107,7 +108,10 @@ function SignUp() {
               type="text"
               placeholder="John Doe"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (error) setError('');
+              }}
               autoComplete="name"
             />
           </div>
@@ -119,7 +123,10 @@ function SignUp() {
               type="email"
               placeholder="you@example.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (error) setError('');
+              }}
               onBlur={handleEmailBlur}
               autoComplete="email"
             />
@@ -139,8 +146,10 @@ function SignUp() {
               type="email"
               placeholder="Re-enter your email"
               value={confirmEmail}
-              onChange={(e) => setConfirmEmail(e.target.value)}
-              onPaste={(e) => e.preventDefault()}
+              onChange={(e) => {
+                setConfirmEmail(e.target.value);
+                if (error) setError('');
+              }}
               autoComplete="off"
             />
           </div>
@@ -152,7 +161,10 @@ function SignUp() {
               type="password"
               placeholder="At least 6 characters"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (error) setError('');
+              }}
               autoComplete="new-password"
             />
           </div>
@@ -164,7 +176,10 @@ function SignUp() {
               type="password"
               placeholder="Re-enter your password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                if (error) setError('');
+              }}
               autoComplete="new-password"
             />
           </div>
@@ -178,7 +193,7 @@ function SignUp() {
         </form>
 
         <div className="auth-footer">
-          Already have an account? <Link to="/login">Sign in</Link>
+          Already have an account? <Link to={`/login${redirectParam ? `?redirect=${redirectParam}` : ''}`}>Sign in</Link>
         </div>
       </div>
     </div>
