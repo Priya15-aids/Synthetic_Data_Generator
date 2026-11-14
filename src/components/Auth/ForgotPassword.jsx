@@ -1,17 +1,22 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FiDatabase, FiMail, FiArrowLeft, FiCheck } from 'react-icons/fi';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { FiDatabase, FiUser, FiMail, FiLock } from 'react-icons/fi';
+import { useAuth } from '../../context/AuthContext';
 import { checkEmailTypo, isValidEmailFormat } from '../../utils/emailValidator';
 import './Auth.css';
 
-function ForgotPassword() {
+function SignUp() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
+  const [confirmEmail, setConfirmEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [step, setStep] = useState(1); 
+  const [error, setError] = useState('');
   const [emailSuggestion, setEmailSuggestion] = useState(null);
+  const { signup } = useAuth();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectParam = searchParams.get('redirect');
 
   const handleEmailBlur = () => {
     if (email.trim()) {
@@ -33,12 +38,12 @@ function ForgotPassword() {
     setEmailSuggestion(null);
   };
 
-  const handleEmailSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
 
-    if (!email.trim()) {
-      setError('Please enter your email address.');
+    if (!name.trim() || !email.trim() || !confirmEmail.trim() || !password.trim() || !confirmPassword.trim()) {
+      setError('Please fill in all fields.');
       return;
     }
 
@@ -47,81 +52,39 @@ function ForgotPassword() {
       return;
     }
 
-    const stored = localStorage.getItem('synthdata_users');
-    const users = stored ? JSON.parse(stored) : [];
-    const found = users.find((u) => u.email === email.toLowerCase().trim());
-
-    if (!found) {
-
-      setError("If that email exists in our system, you'll be able to reset. Please double-check your spelling or contact support.");
+    if (email.trim().toLowerCase() !== confirmEmail.trim().toLowerCase()) {
+      setError('Email addresses do not match. Please re-enter.');
       return;
     }
 
-    setStep(2);
-  };
-
-  const handleResetSubmit = (e) => {
-    e.preventDefault();
-    setError('');
-
-    if (!newPassword.trim() || !confirmPassword.trim()) {
-      setError('Please fill in both password fields.');
-      return;
-    }
-
-    if (newPassword.length < 6) {
+    if (password.length < 6) {
       setError('Password must be at least 6 characters.');
       return;
     }
 
-    if (newPassword !== confirmPassword) {
+    if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
 
-    const stored = localStorage.getItem('synthdata_users');
-    const users = stored ? JSON.parse(stored) : [];
-    const userIndex = users.findIndex((u) => u.email === email.toLowerCase().trim());
-
-    if (userIndex !== -1) {
-      let hash = 0;
-      for (let i = 0; i < newPassword.length; i++) {
-        const char = newPassword.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
+    const result = signup(name, email, password);
+    if (result.success) {
+      const redirect = searchParams.get('redirect');
+      if (redirect) {
+        navigate('/');
+        setTimeout(() => {
+          const el = document.getElementById(redirect);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        navigate('/');
       }
-      users[userIndex].passwordHash = hash.toString(36);
-      localStorage.setItem('synthdata_users', JSON.stringify(users));
-      setSuccess(true);
     } else {
-      setError('Something went wrong. Please try again.');
+      setError(result.message);
     }
   };
-
-  if (success) {
-    return (
-      <div className="auth-page">
-        <div className="auth-card">
-          <div className="auth-header">
-            <Link to="/" className="auth-logo">
-              <FiDatabase />
-              <span>SynthData</span>
-            </Link>
-            <div className="auth-success-icon">
-              <FiCheck />
-            </div>
-            <h2>Password Reset Successful</h2>
-            <p>Your password has been updated. You can now sign in with your new password.</p>
-          </div>
-          <div className="auth-submit" style={{ marginTop: '1.5rem' }}>
-            <Link to="/login" className="btn btn-primary" style={{ textDecoration: 'none', justifyContent: 'center' }}>
-              Go to Sign In
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="auth-page">
@@ -131,96 +94,110 @@ function ForgotPassword() {
             <FiDatabase />
             <span>SynthData</span>
           </Link>
-          <h2>{step === 1 ? 'Forgot Password' : 'Reset Password'}</h2>
-          <p>
-            {step === 1
-              ? 'Enter your email address to reset your password'
-              : `Reset password for ${email}`}
-          </p>
+          <h2>Create Account</h2>
+          <p>Get started with synthetic data generation</p>
         </div>
 
-        {step === 1 && (
-          <form className="auth-form" onSubmit={handleEmailSubmit}>
-            {error && <div className="auth-error">{error}</div>}
+        <form className="auth-form" onSubmit={handleSubmit} noValidate>
+          {error && <div className="auth-error">{error}</div>}
 
-            <div className="auth-field">
-              <label htmlFor="forgot-email">Email Address</label>
-              <input
-                id="forgot-email"
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onBlur={handleEmailBlur}
-                autoComplete="email"
-              />
-              {emailSuggestion && (
-                <div className="email-suggestion">
-                  <span>Did you mean <strong>{emailSuggestion}</strong>?</span>
-                  <button type="button" className="suggestion-btn yes" onClick={acceptSuggestion}>Yes</button>
-                  <button type="button" className="suggestion-btn no" onClick={dismissSuggestion}>No</button>
-                </div>
-              )}
-            </div>
+          <div className="auth-field">
+            <label htmlFor="signup-name">Full Name</label>
+            <input
+              id="signup-name"
+              type="text"
+              placeholder="John Doe"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (error) setError('');
+              }}
+              autoComplete="name"
+            />
+          </div>
 
-            <div className="auth-help-text">
-              Didn't receive a reset? Double-check your email spelling or contact support.
-            </div>
+          <div className="auth-field">
+            <label htmlFor="signup-email">Email Address</label>
+            <input
+              id="signup-email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (error) setError('');
+              }}
+              onBlur={handleEmailBlur}
+              autoComplete="email"
+            />
+            {emailSuggestion && (
+              <div className="email-suggestion">
+                <span>Did you mean <strong>{emailSuggestion}</strong>?</span>
+                <button type="button" className="suggestion-btn yes" onClick={acceptSuggestion}>Yes</button>
+                <button type="button" className="suggestion-btn no" onClick={dismissSuggestion}>No</button>
+              </div>
+            )}
+          </div>
 
-            <div className="auth-submit">
-              <button type="submit" className="btn btn-primary">
-                <FiMail />
-                Verify Email
-              </button>
-            </div>
-          </form>
-        )}
+          <div className="auth-field">
+            <label htmlFor="signup-confirm-email">Confirm Email Address</label>
+            <input
+              id="signup-confirm-email"
+              type="email"
+              placeholder="Re-enter your email"
+              value={confirmEmail}
+              onChange={(e) => {
+                setConfirmEmail(e.target.value);
+                if (error) setError('');
+              }}
+              autoComplete="off"
+            />
+          </div>
 
-        {step === 2 && (
-          <form className="auth-form" onSubmit={handleResetSubmit}>
-            {error && <div className="auth-error">{error}</div>}
+          <div className="auth-field">
+            <label htmlFor="signup-password">Password</label>
+            <input
+              id="signup-password"
+              type="password"
+              placeholder="At least 6 characters"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (error) setError('');
+              }}
+              autoComplete="new-password"
+            />
+          </div>
 
-            <div className="auth-field">
-              <label htmlFor="new-password">New Password</label>
-              <input
-                id="new-password"
-                type="password"
-                placeholder="At least 6 characters"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                autoComplete="new-password"
-              />
-            </div>
+          <div className="auth-field">
+            <label htmlFor="signup-confirm">Confirm Password</label>
+            <input
+              id="signup-confirm"
+              type="password"
+              placeholder="Re-enter your password"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                if (error) setError('');
+              }}
+              autoComplete="new-password"
+            />
+          </div>
 
-            <div className="auth-field">
-              <label htmlFor="confirm-new-password">Confirm New Password</label>
-              <input
-                id="confirm-new-password"
-                type="password"
-                placeholder="Re-enter your password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                autoComplete="new-password"
-              />
-            </div>
-
-            <div className="auth-submit">
-              <button type="submit" className="btn btn-primary">
-                <FiCheck />
-                Reset Password
-              </button>
-            </div>
-          </form>
-        )}
+          <div className="auth-submit">
+            <button type="submit" className="btn btn-primary">
+              <FiUser />
+              Create Account
+            </button>
+          </div>
+        </form>
 
         <div className="auth-footer">
-          <Link to="/login" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-            <FiArrowLeft /> Back to Sign In
-          </Link>
+          Already have an account? <Link to={`/login${redirectParam ? `?redirect=${redirectParam}` : ''}`}>Sign in</Link>
         </div>
       </div>
     </div>
   );
 }
 
-export default ForgotPassword;
+export default SignUp;
