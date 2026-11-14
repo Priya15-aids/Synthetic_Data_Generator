@@ -15,7 +15,7 @@ const useCases = [
     description: 'Train and test ML models with large, balanced datasets without collecting more real data.',
     tags: ['Model Training', 'Data Augmentation', 'Balanced Classes'],
     color: '#10b981',
-    image: '/images/usecase-ml.png',
+    image: `${import.meta.env.BASE_URL}images/usecase-ml.png`,
   },
   {
     icon: <FiCode />,
@@ -23,7 +23,7 @@ const useCases = [
     description: 'Generate realistic test data for databases, APIs, and applications without privacy concerns.',
     tags: ['QA Testing', 'Load Testing', 'Integration Tests'],
     color: '#a855f7',
-    image: '/images/usecase-testing.png',
+    image: `${import.meta.env.BASE_URL}images/usecase-testing.png`,
   },
   {
     icon: <FiBarChart2 />,
@@ -31,7 +31,7 @@ const useCases = [
     description: 'Explore analytical techniques and build dashboards using realistic synthetic datasets.',
     tags: ['Analytics', 'BI Tools & Dashboards', 'Reporting Tools'],
     color: '#10b981',
-    image: '/images/usecase-analysis.png',
+    image: `${import.meta.env.BASE_URL}images/usecase-analysis.png`,
   },
   {
     icon: <FiBookOpen />,
@@ -39,7 +39,7 @@ const useCases = [
     description: 'Teach data science concepts with realistic datasets that can be shared without cost anywhere.',
     tags: ['Teaching', 'Workshops & Seminars', 'Publications'],
     color: '#a855f7',
-    image: '/images/usecase-education.png',
+    image: `${import.meta.env.BASE_URL}images/usecase-education.png`,
   },
   {
     icon: <FiHeart />,
@@ -47,7 +47,7 @@ const useCases = [
     description: 'Generate synthetic patient data for research while maintaining HIPAA compliance for researchers.',
     tags: ['Patient Records', 'Clinical Trials', 'HIPAA Safe'],
     color:'#10b981',
-    image: '/images/usecase-healthcare.png',
+    image: `${import.meta.env.BASE_URL}images/usecase-healthcare.png`,
   },
   {
     icon: <FiDollarSign />,
@@ -55,7 +55,7 @@ const useCases = [
     description: 'Create synthetic transaction and customer data for fraud detection model development in real-world.',
     tags: ['Transactions', 'Fraud Detection', 'Risk Models'],
     color: '#a855f7',
-    image: '/images/usecase-finance.png',
+    image: `${import.meta.env.BASE_URL}images/usecase-finance.png`,
   },
 ];
 
