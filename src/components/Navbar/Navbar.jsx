@@ -25,6 +25,24 @@ function Navbar() {
 
   const handleNavClick = () => setIsOpen(false);
 
+  // Scroll to a section without changing the URL hash (needed for HashRouter)
+  const handleSectionClick = (e, href) => {
+    e.preventDefault();
+    setIsOpen(false);
+
+    const id = href.replace('#', '');
+    let el = document.getElementById(id);
+    if (!el && id === 'generator') {
+      el = document.querySelector('.generate-section');
+    }
+
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -69,7 +87,7 @@ function Navbar() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    onClick={handleNavClick}
+                    onClick={(e) => handleSectionClick(e, link.href)}
                     style={{ '--nav-color': link.color }}
                   >
                     {link.label}
