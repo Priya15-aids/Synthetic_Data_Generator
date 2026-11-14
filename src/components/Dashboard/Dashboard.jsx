@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {
   FiUpload,
   FiDatabase,
@@ -15,8 +15,18 @@ import { useAuth } from '../../context/AuthContext';
 import './Dashboard.css';
 
 function getUserFiles(userId) {
+  const empty = { uploaded: [], generated: [] };
   const stored = localStorage.getItem(`synthdata_files_${userId}`);
-  return stored ? JSON.parse(stored) : { uploaded: [], generated: [] };
+  if (!stored) return empty;
+  try {
+    const parsed = JSON.parse(stored);
+    return {
+      uploaded: Array.isArray(parsed?.uploaded) ? parsed.uploaded : [],
+      generated: Array.isArray(parsed?.generated) ? parsed.generated : [],
+    };
+  } catch {
+    return empty;
+  }
 }
 
 function saveUserFiles(userId, files) {
@@ -24,7 +34,8 @@ function saveUserFiles(userId, files) {
 }
 
 function Dashboard() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const [files, setFiles] = useState({ uploaded: [], generated: [] });
 
   useEffect(() => {
@@ -32,6 +43,24 @@ function Dashboard() {
       setFiles(getUserFiles(user.id));
     }
   }, [user]);
+
+  // Go to Home and scroll to the generator section
+  const goToGenerator = (e) => {
+    e.preventDefault();
+    navigate('/');
+    setTimeout(() => {
+      const el =
+        document.getElementById('generator') ||
+        document.querySelector('.generate-section');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
+  };
+
+  // Wait until the saved session is checked, then protect the page
+  if (loading) return null;
+  if (!user) return <Navigate to="/login" replace />;
 
   const handleDownload = (file) => {
     const data = file.data;
@@ -52,6 +81,9 @@ function Dashboard() {
   };
 
   const handleDelete = (type, index) => {
+    const fileName = files[type][index]?.name || 'this file';
+    if (!window.confirm(`Delete "${fileName}"? This cannot be undone.`)) return;
+
     const updated = { ...files };
     updated[type] = updated[type].filter((_, i) => i !== index);
     setFiles(updated);
@@ -140,7 +172,7 @@ function Dashboard() {
           ) : (
             <div className="empty-state">
               <FiUpload />
-              <p>No uploaded files yet. <Link to="/#generator">Upload a dataset</Link> to get started.</p>
+              <p>No uploaded files yet. <a href="#/" onClick={goToGenerator}>Upload a dataset</a> to get started.</p>
             </div>
           )}
         </div>
@@ -187,7 +219,7 @@ function Dashboard() {
           ) : (
             <div className="empty-state">
               <FiDatabase />
-              <p>No generated files yet. <Link to="/#generator">Generate synthetic data</Link> to see them here.</p>
+              <p>No generated files yet. <a href="#/" onClick={goToGenerator}>Generate synthetic data</a> to see them here.</p>
             </div>
           )}
         </div>
@@ -205,9 +237,4 @@ export function saveToDashboard(userId, type, fileRecord) {
 
   if (files[type].length > 50) files[type] = files[type].slice(0, 50);
   saveUserFiles(userId, files);
-}
-
-function getUserFilesExternal(userId) {
-  const stored = localStorage.getItem(`synthdata_files_${userId}`);
-  return stored ? JSON.parse(stored) : { uploaded: [], generated: [] };
 }
