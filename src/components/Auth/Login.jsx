@@ -79,7 +79,7 @@ function Login() {
           <p>Sign in to access your dashboard and datasets</p>
         </div>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit} noValidate>
           {error && <div className="auth-error">{error}</div>}
 
           <div className="auth-field">
@@ -89,7 +89,10 @@ function Login() {
               type="email"
               placeholder="you@example.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (error) setError('');
+              }}
               onBlur={handleEmailBlur}
               autoComplete="email"
             />
@@ -109,7 +112,10 @@ function Login() {
               type="password"
               placeholder="Enter your password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (error) setError('');
+              }}
               autoComplete="current-password"
             />
           </div>
