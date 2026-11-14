@@ -26,7 +26,9 @@ const steps = [
 
 function HowItWorks() {
   const { theme } = useTheme();
-  const processImage = theme === 'light' ? '/images/process-flow-light.png' : '/images/process-flow.png';
+  const processImage = theme === 'light'
+    ? `${import.meta.env.BASE_URL}images/process-flow-light.png`
+    : `${import.meta.env.BASE_URL}images/process-flow.png`;
 
   return (
     <section id="how-it-works" className="how-it-works">
