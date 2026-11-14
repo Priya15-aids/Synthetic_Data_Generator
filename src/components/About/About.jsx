@@ -5,19 +5,19 @@ const aboutCards = [
     title: 'Privacy Safe',
     description: 'Generate data that mimics real-world patterns without exposing any actual personal or sensitive information. Comply with GDPR, HIPAA, and other regulations.',
     color: '#a855f7',
-    image: '/images/about-privacy.png',
+    image: `${import.meta.env.BASE_URL}images/about-privacy.png`,
   },
   {
     title: 'Scalable',
     description: 'Transform a handful of sample records into thousands or millions of synthetic entries while preserving data distributions and correlations.',
     color: '#10b981',
-    image: '/images/about-scalable.png',
+    image: `${import.meta.env.BASE_URL}images/about-scalable.png`,
   },
   {
     title: 'Intelligent',
     description: 'Our engine automatically detects column types and generates contextually appropriate values - names, emails, dates, numbers, and more.',
     color: '#f43f5e',
-    image: '/images/about-intelligent.png',
+    image: `${import.meta.env.BASE_URL}images/about-intelligent.png`,
   },
 ];
 
