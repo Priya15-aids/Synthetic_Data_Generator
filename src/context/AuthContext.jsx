@@ -23,7 +23,13 @@ function hashPassword(password) {
 
 function getUsers() {
   const stored = localStorage.getItem('synthdata_users');
-  return stored ? JSON.parse(stored) : [];
+  if (!stored) return [];
+  try {
+    const parsed = JSON.parse(stored);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }
 
 function saveUsers(users) {
@@ -32,7 +38,12 @@ function saveUsers(users) {
 
 function getCurrentSession() {
   const stored = localStorage.getItem('synthdata_session');
-  return stored ? JSON.parse(stored) : null;
+  if (!stored) return null;
+  try {
+    return JSON.parse(stored);
+  } catch {
+    return null;
+  }
 }
 
 function saveSession(session) {
@@ -63,7 +74,8 @@ export function AuthProvider({ children }) {
 
   const signup = (name, email, password) => {
     const users = getUsers();
-    const exists = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    const cleanEmail = email.toLowerCase().trim();
+    const exists = users.find((u) => u.email.toLowerCase() === cleanEmail);
     if (exists) {
       return { success: false, message: 'An account with this email already exists.' };
     }
@@ -71,7 +83,7 @@ export function AuthProvider({ children }) {
     const newUser = {
       id: uuidv4(),
       name: name.trim(),
-      email: email.toLowerCase().trim(),
+      email: cleanEmail,
       passwordHash: hashPassword(password),
       createdAt: new Date().toISOString(),
     };
