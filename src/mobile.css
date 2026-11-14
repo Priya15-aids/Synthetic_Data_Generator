@@ -1,0 +1,329 @@
+@media (max-width: 768px) {
+  .hero {
+    padding: 4.5rem 1rem 2rem;
+    min-height: auto;
+  }
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  .hero-text {
+    max-width: 100%;
+  }
+  .hero-title {
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+  .hero-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+  .hero-badge {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.8rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1.2rem;
+    font-size: 0.88rem;
+  }
+  .hero-illustration {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .floating-badge {
+    display: none;
+  }
+  .hero-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    justify-content: center;
+  }
+  .stat-number {
+    font-size: 1.4rem;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+  }
+  .about {
+    padding: 1.5rem 1rem;
+  }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .about-card-image {
+    height: auto;
+  }
+  .about-card-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .about-card-content {
+    padding: 1rem 1rem 1.2rem;
+  }
+  .about-card h3 {
+    font-size: 1.05rem;
+  }
+  .about-card p {
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  .features {
+    padding: 2rem 1rem;
+    overflow-x: hidden;
+  }
+  .features-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+  .feature-card {
+    padding: 1.2rem 0.8rem;
+  }
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+  .feature-card h3 {
+    font-size: 0.78rem;
+  }
+  .feature-card p {
+    font-size: 0.68rem;
+  }
+  .how-it-works {
+    padding: 2rem 1rem;
+  }
+  .process-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .process-image-container {
+    order: -1;
+  }
+  .process-image-container img {
+    max-width: 80%;
+    margin: 0 auto;
+    display: block;
+  }
+  .process-step-item {
+    gap: 0.7rem;
+  }
+  .process-step-number {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 0.72rem;
+  }
+  .process-step-content h4 {
+    font-size: 0.9rem;
+  }
+  .process-step-content p {
+    font-size: 0.8rem;
+  }
+  .use-cases {
+    padding: 2rem 1rem;
+  }
+  .use-cases-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .use-case-card {
+    height: auto;
+    min-height: auto;
+  }
+  .use-case-card-image {
+    height: 160px;
+  }
+  .use-case-card h3 {
+    font-size: 0.95rem;
+    margin: 0.8rem 1rem 0.3rem;
+  }
+  .use-case-card p {
+    font-size: 0.82rem;
+    padding: 0 1rem;
+  }
+  .use-case-tags {
+    padding: 0.6rem 1rem 1rem;
+    gap: 0.4rem;
+  }
+  .use-case-tag {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+  }
+  .dataset-upload {
+    padding: 2rem 1rem;
+  }
+  .upload-tabs {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .upload-tab {
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+  }
+  .upload-zone {
+    padding: 2rem 1rem;
+    border-radius: var(--radius-lg);
+  }
+  .upload-zone-icon-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+  .upload-zone-icon {
+    font-size: 1.8rem;
+  }
+  .upload-zone h3 {
+    font-size: 0.95rem;
+  }
+  .upload-zone p {
+    font-size: 0.8rem;
+  }
+  .upload-formats {
+    gap: 0.4rem;
+  }
+  .format-badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+  }
+  .custom-columns {
+    padding: 1rem;
+  }
+  .custom-columns h3 {
+    font-size: 1rem;
+  }
+  .column-row {
+    flex-wrap: wrap;
+  }
+  .column-row input,
+  .column-row select {
+    font-size: 0.85rem;
+    padding: 0.7rem 0.8rem;
+  }
+  .column-row select {
+    min-width: 100%;
+  }
+  .generate-section {
+    padding: 0 1rem 2rem;
+  }
+  .controls-card {
+    padding: 1.2rem;
+  }
+  .controls-header h3 {
+    font-size: 1rem;
+  }
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .control-group input {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+  .generate-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem 1rem !important;
+    font-size: 0.92rem !important;
+  }
+  .controls-info {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .info-item {
+    font-size: 0.8rem;
+  }
+  .download-section {
+    padding: 1rem;
+  }
+  .download-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+  .download-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-download {
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1rem;
+    font-size: 0.82rem;
+  }
+  .preview-header {
+    padding: 0.8rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .preview-title h3 {
+    font-size: 0.85rem;
+  }
+  .preview-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
+  .preview-table th,
+  .preview-table td {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .quality-metrics-panel {
+    padding: 1rem;
+  }
+  .metrics-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  .metric-card {
+    padding: 0.8rem;
+  }
+  .metric-value {
+    font-size: 1rem;
+  }
+  .metric-label {
+    font-size: 0.68rem;
+  }
+  .section-header {
+    margin-bottom: 1.2rem;
+  }
+  .section-tag {
+    font-size: 0.68rem;
+    padding: 0.3rem 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-size: 1.35rem;
+  }
+  .section-subtitle {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+}
+@media (max-width: 380px) {
+  .features-row {
+    grid-template-columns: 1fr;
+  }
+  .hero-title {
+    font-size: 1.4rem;
+  }
+  .hero-stats {
+    gap: 0.8rem;
+  }
+  .stat-item {
+    min-width: 80px;
+  }
+}

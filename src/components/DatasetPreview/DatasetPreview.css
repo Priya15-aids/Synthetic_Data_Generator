@@ -1,0 +1,90 @@
+.dataset-preview {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-top: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+}
+.preview-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-text);
+}
+.preview-title h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.preview-title svg {
+  color: var(--color-primary);
+}
+.preview-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  color: var(--color-accent);
+  padding: 0.3rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.preview-table-wrapper {
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.preview-table th {
+  background: var(--color-primary-light);
+  padding: 0.8rem 1rem;
+  text-align: left;
+  color: var(--color-primary);
+  font-weight: 600;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.preview-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.preview-table tbody tr {
+  transition: background var(--transition-fast);
+}
+.preview-table tbody tr:hover {
+  background: color-mix(in srgb, var(--color-primary) 3%, transparent);
+}
+.empty-cell {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 2rem !important;
+  font-style: italic;
+}
+.preview-more {
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+}

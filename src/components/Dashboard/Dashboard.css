@@ -1,0 +1,222 @@
+.dashboard-page {
+  min-height: 100vh;
+  padding-top: 100px;
+  padding-bottom: 4rem;
+  background: var(--color-bg);
+}
+.dashboard-header {
+  margin-bottom: 2.5rem;
+}
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+  color: var(--color-text);
+}
+.dashboard-header p {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
+}
+.stat-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+   border-color: var(--color-primary);
+  padding: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: var(--transition-fast);
+}
+.stat-card:hover {
+  box-shadow: var(--shadow-glow-primary);
+}
+.stat-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.stat-card-icon.purple {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.stat-card-icon.cyan {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+}
+.stat-card-icon.emerald {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--color-emerald);
+}
+.stat-card-info h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+.stat-card-info span {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+.dashboard-section {
+  margin-bottom: 2.5rem;
+}
+.dashboard-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.dashboard-section-header h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dashboard-section-header h2 svg {
+  color: var(--color-primary);
+}
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+.file-item:hover {
+  border-color: var(--color-border-light);
+  background: var(--color-card-hover);
+}
+.file-item-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 0;
+}
+.file-item-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.file-item-icon.upload {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--color-blue);
+}
+.file-item-icon.generated {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--color-emerald);
+}
+.file-item-details {
+  min-width: 0;
+}
+.file-item-details h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.file-item-details span {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+.file-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.file-action-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-size: 0.9rem;
+}
+.file-action-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+.file-action-btn.delete:hover {
+  border-color: var(--color-rose);
+  color: var(--color-rose);
+  background: rgba(244, 63, 94, 0.1);
+}
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  background: var(--color-card-bg);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+.empty-state svg {
+  font-size: 2rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.8rem;
+}
+.empty-state p {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+}
+.empty-state a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.empty-state a:hover {
+  text-decoration: underline;
+}
+@media (max-width: 768px) {
+  .dashboard-page {
+    padding-top: 80px;
+  }
+  .dashboard-header h1 {
+    font-size: 1.4rem;
+  }
+  .file-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .file-item-actions {
+    align-self: flex-end;
+  }
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+}
