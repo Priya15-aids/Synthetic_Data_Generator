@@ -1,6 +1,17 @@
 import { FiArrowDown, FiZap, FiDatabase, FiTrendingUp, FiCpu } from 'react-icons/fi';
 import './Hero.css';
 
+// Scroll to a section without changing the URL hash (needed for HashRouter)
+function scrollToSection(e, id) {
+  e.preventDefault();
+  const el =
+    document.getElementById(id) ||
+    (id === 'generator' ? document.querySelector('.generate-section') : null);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 function Hero() {
   return (
     <section id="home" className="hero">
@@ -27,11 +38,11 @@ function Hero() {
               original patterns. Perfect for <span className="text-highlight-blue">machine learning</span>, <span className="text-highlight-violet">testing</span>, and <span className="text-highlight-cyan">development</span>.
             </p>
             <div className="hero-actions">
-              <a href="#generator" className="btn btn-primary">
+              <a href="#generator" className="btn btn-primary" onClick={(e) => scrollToSection(e, 'generator')}>
                 Start Generating
                 <FiZap />
               </a>
-              <a href="#about" className="btn btn-secondary">
+              <a href="#about" className="btn btn-secondary" onClick={(e) => scrollToSection(e, 'about')}>
                 Learn More
                 <FiArrowDown />
               </a>
