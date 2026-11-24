@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FiUploadCloud, FiFile, FiX, FiPlus, FiColumns } from 'react-icons/fi';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
@@ -32,7 +33,19 @@ function DatasetUpload({ onDataLoaded }) {
     { name: 'email', type: 'Email' },
   ]);
   const fileInputRef = useRef(null);
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Signed-out visitors are sent to login right away.
+  // Returns true if the visitor may continue.
+  const requireLogin = () => {
+    if (loading) return false;
+    if (!user) {
+      navigate('/login?redirect=generator');
+      return false;
+    }
+    return true;
+  };
 
   const handleTabSwitch = (tab) => {
     if (tab !== activeTab) {
@@ -101,9 +114,15 @@ function DatasetUpload({ onDataLoaded }) {
     if (file) parseFile(file);
   };
 
+  const handleZoneClick = () => {
+    if (!requireLogin()) return;
+    fileInputRef.current?.click();
+  };
+
   const handleDrop = (e) => {
     e.preventDefault();
     setDragOver(false);
+    if (!requireLogin()) return;
     const file = e.dataTransfer.files[0];
     if (file) parseFile(file);
   };
@@ -136,6 +155,7 @@ function DatasetUpload({ onDataLoaded }) {
   };
 
   const applyCustomColumns = () => {
+    if (!requireLogin()) return;
     const validCols = customColumns.filter((c) => c.name.trim() !== '');
     if (validCols.length === 0) {
       alert('Please add at least one column with a name.');
@@ -180,7 +200,7 @@ function DatasetUpload({ onDataLoaded }) {
             <div>
               <div
                 className={`upload-zone ${dragOver ? 'drag-over' : ''}`}
-                onClick={() => fileInputRef.current?.click()}
+                onClick={handleZoneClick}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
