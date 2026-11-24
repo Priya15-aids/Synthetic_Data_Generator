@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { FiArrowDown, FiZap, FiDatabase, FiTrendingUp, FiCpu } from 'react-icons/fi';
+import { useAuth } from '../../context/AuthContext';
 import './Hero.css';
 
 // Scroll to a section without changing the URL hash (needed for HashRouter)
@@ -13,6 +15,23 @@ function scrollToSection(e, id) {
 }
 
 function Hero() {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Signed-out visitors go to login first; signed-in users scroll to the generator
+  const handleStartGenerating = (e) => {
+    if (loading) {
+      e.preventDefault();
+      return;
+    }
+    if (!user) {
+      e.preventDefault();
+      navigate('/login?redirect=generator');
+      return;
+    }
+    scrollToSection(e, 'generator');
+  };
+
   return (
     <section id="home" className="hero">
       <div className="hero-bg-effects">
@@ -38,7 +57,7 @@ function Hero() {
               original patterns. Perfect for <span className="text-highlight-blue">machine learning</span>, <span className="text-highlight-violet">testing</span>, and <span className="text-highlight-cyan">development</span>.
             </p>
             <div className="hero-actions">
-              <a href="#generator" className="btn btn-primary" onClick={(e) => scrollToSection(e, 'generator')}>
+              <a href="#generator" className="btn btn-primary" onClick={handleStartGenerating}>
                 Start Generating
                 <FiZap />
               </a>
