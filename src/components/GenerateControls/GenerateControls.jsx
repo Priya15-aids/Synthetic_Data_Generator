@@ -1,22 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiZap, FiInfo, FiDownload, FiCheckCircle, FiFile, FiFileText, FiAlertTriangle } from 'react-icons/fi';
+import { FiZap, FiInfo, FiDownload, FiCheckCircle, FiFile, FiAlertTriangle } from 'react-icons/fi';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { generateSyntheticData } from '../../utils/syntheticDataGenerator';
-import { generatePDFReport } from '../../utils/generateReport';
 import { saveToDashboard } from '../Dashboard/Dashboard';
 import { useAuth } from '../../context/AuthContext';
 import DatasetPreview from '../DatasetPreview/DatasetPreview';
 import './GenerateControls.css';
 
-function GenerateControls({ columns, sourceData, uploadedFileName }) {
+function GenerateControls({ columns, sourceData }) {
   const [numRecords, setNumRecords] = useState(100);
   const [generatedData, setGeneratedData] = useState([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [fileName, setFileName] = useState('synthetic_dataset');
-  const [generationTime, setGenerationTime] = useState(0);
   const generatedRef = useRef(null);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -35,12 +33,8 @@ function GenerateControls({ columns, sourceData, uploadedFileName }) {
     }
 
     setIsGenerating(true);
-    const startTime = performance.now();
     setTimeout(() => {
       const data = generateSyntheticData(columns, sourceData, numRecords);
-      const endTime = performance.now();
-      const elapsed = Math.round(endTime - startTime);
-      setGenerationTime(elapsed);
       setGeneratedData(data);
       setIsGenerating(false);
 
@@ -87,18 +81,6 @@ function GenerateControls({ columns, sourceData, uploadedFileName }) {
         data: generatedData.slice(0, 500),
       });
     }
-  };
-
-  const downloadReport = () => {
-    generatePDFReport({
-      originalFileName: uploadedFileName || '',
-      columns,
-      sourceData,
-      generatedData,
-      numRecords,
-      generationTime,
-      reportFileName: fileName || 'synthetic_dataset',
-    });
   };
 
 
@@ -220,16 +202,10 @@ function GenerateControls({ columns, sourceData, uploadedFileName }) {
                       <FiDownload />
                       Download Excel
                     </button>
-                    <button className="btn-download btn-download-report" onClick={downloadReport}>
-                      <FiFileText />
-                      Download Report
-                    </button>
                   </div>
                 </div>
               </div>
-
-              {}
-                          </div>
+            </div>
           )}
         </div>
       </div>
