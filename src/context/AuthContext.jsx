@@ -84,7 +84,7 @@ export function AuthProvider({ children }) {
       id: uuidv4(),
       name: name.trim(),
       email: cleanEmail,
-      passwordHash: hashPassword(password),
+      passwordHash: hashPassword(password.trim()),
       createdAt: new Date().toISOString(),
     };
 
@@ -97,8 +97,11 @@ export function AuthProvider({ children }) {
 
   const login = (email, password) => {
     const users = getUsers();
+    const cleanEmail = email.toLowerCase().trim();
+    // Accept the password as typed, or with stray leading/trailing spaces removed
+    const hashes = [hashPassword(password), hashPassword(password.trim())];
     const found = users.find(
-      (u) => u.email === email.toLowerCase().trim() && u.passwordHash === hashPassword(password)
+      (u) => u.email.toLowerCase().trim() === cleanEmail && hashes.includes(u.passwordHash)
     );
 
     if (!found) {
