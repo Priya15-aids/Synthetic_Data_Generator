@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { FiDatabase, FiMail, FiLock } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { checkEmailTypo, isValidEmailFormat } from '../../utils/emailValidator';
+import PasswordInput from './PasswordInput';
 import './Auth.css';
 
 function Login() {
@@ -107,9 +108,8 @@ function Login() {
 
           <div className="auth-field">
             <label htmlFor="login-password">Password</label>
-            <input
+            <PasswordInput
               id="login-password"
-              type="password"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => {
