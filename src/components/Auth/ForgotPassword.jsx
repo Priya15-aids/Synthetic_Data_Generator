@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiDatabase, FiMail, FiArrowLeft, FiCheck } from 'react-icons/fi';
 import { checkEmailTypo, isValidEmailFormat } from '../../utils/emailValidator';
+import PasswordInput from './PasswordInput';
 import './Auth.css';
 
 function getStoredUsers() {
@@ -12,6 +13,21 @@ function getStoredUsers() {
     return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
+  }
+}
+
+// Remove the login-lock record for an email after a successful reset
+function clearLoginLock(cleanEmail) {
+  try {
+    const stored = localStorage.getItem('synthdata_attempts');
+    if (!stored) return;
+    const attempts = JSON.parse(stored);
+    if (attempts && attempts[cleanEmail]) {
+      delete attempts[cleanEmail];
+      localStorage.setItem('synthdata_attempts', JSON.stringify(attempts));
+    }
+  } catch {
+    // ignore
   }
 }
 
@@ -89,18 +105,21 @@ function ForgotPassword() {
       return;
     }
 
+    const cleanEmail = email.toLowerCase().trim();
     const users = getStoredUsers();
-    const userIndex = users.findIndex((u) => u.email === email.toLowerCase().trim());
+    const userIndex = users.findIndex((u) => u.email === cleanEmail);
 
     if (userIndex !== -1) {
+      const pwd = newPassword.trim();
       let hash = 0;
-      for (let i = 0; i < newPassword.length; i++) {
-        const char = newPassword.charCodeAt(i);
+      for (let i = 0; i < pwd.length; i++) {
+        const char = pwd.charCodeAt(i);
         hash = ((hash << 5) - hash) + char;
         hash = hash & hash;
       }
       users[userIndex].passwordHash = hash.toString(36);
       localStorage.setItem('synthdata_users', JSON.stringify(users));
+      clearLoginLock(cleanEmail);
       setSuccess(true);
     } else {
       setError('Something went wrong. Please try again.');
@@ -201,9 +220,8 @@ function ForgotPassword() {
 
             <div className="auth-field">
               <label htmlFor="new-password">New Password</label>
-              <input
+              <PasswordInput
                 id="new-password"
-                type="password"
                 placeholder="At least 6 characters"
                 value={newPassword}
                 onChange={(e) => {
@@ -216,9 +234,8 @@ function ForgotPassword() {
 
             <div className="auth-field">
               <label htmlFor="confirm-new-password">Confirm New Password</label>
-              <input
+              <PasswordInput
                 id="confirm-new-password"
-                type="password"
                 placeholder="Re-enter your password"
                 value={confirmPassword}
                 onChange={(e) => {
