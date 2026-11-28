@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { FiDatabase, FiUser, FiMail, FiLock } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { checkEmailTypo, isValidEmailFormat } from '../../utils/emailValidator';
+import PasswordInput from './PasswordInput';
 import './Auth.css';
 
 function SignUp() {
@@ -156,9 +157,8 @@ function SignUp() {
 
           <div className="auth-field">
             <label htmlFor="signup-password">Password</label>
-            <input
+            <PasswordInput
               id="signup-password"
-              type="password"
               placeholder="At least 6 characters"
               value={password}
               onChange={(e) => {
@@ -171,9 +171,8 @@ function SignUp() {
 
           <div className="auth-field">
             <label htmlFor="signup-confirm">Confirm Password</label>
-            <input
+            <PasswordInput
               id="signup-confirm"
-              type="password"
               placeholder="Re-enter your password"
               value={confirmPassword}
               onChange={(e) => {
